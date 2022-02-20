@@ -26,7 +26,9 @@ public class Player : MonoBehaviour
 
         movementController();
 
-
+        if(Input.GetKeyDown(KeyCode.Space)){
+            Debug.Log("Space key pressed");
+        }
         
     }
 
