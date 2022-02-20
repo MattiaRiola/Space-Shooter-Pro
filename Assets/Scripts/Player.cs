@@ -5,16 +5,19 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
-    public Vector3 speed;
+    [SerializeField]
+    private Vector3 _speed;
     public Vector2 sensibility; 
-    public bool xOk;
-    public bool yOk;
+    [SerializeField]
+        private GameObject _laserPrefab;
+    private float _offset = 0.8f;
 
     // Start is called before the first frame update
     void Start()
     {
+        
         sensibility = new Vector2(5,5);
-        speed = new Vector3(0,0,0);
+        _speed = new Vector3(0,0,0);
         transform.position = new Vector3(0,0,0);
     }
 
@@ -27,7 +30,11 @@ public class Player : MonoBehaviour
         movementController();
 
         if(Input.GetKeyDown(KeyCode.Space)){
-            Debug.Log("Space key pressed");
+            Instantiate(
+                _laserPrefab,
+                transform.position+(Vector3.up*_offset),
+                Quaternion.identity
+            );
         }
         
     }
@@ -38,10 +45,10 @@ public class Player : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
 
 
-        speed.x = horizontalInput * sensibility.x;
-        speed.y = verticalInput * sensibility.y;
+        _speed.x = horizontalInput * sensibility.x;
+        _speed.y = verticalInput * sensibility.y;
 
-        transform.Translate( speed * Time.deltaTime);
+        transform.Translate( _speed * Time.deltaTime);
 
         xSpeedAndPositionUpdate(Input.GetAxis("Horizontal"));
         
@@ -72,11 +79,11 @@ public class Player : MonoBehaviour
     void ySpeedAndPositionUpdate(float verticalInput){
         if(transform.position.y >= MainCamera.CAMERA_LIMIT_VIEW.y){
             //set the speed to 0 if moving upward
-            speed.y = verticalInput <= 0 ? verticalInput : 0;
+            _speed.y = verticalInput <= 0 ? verticalInput : 0;
         }
         else if(transform.position.y <= - MainCamera.CAMERA_LIMIT_VIEW.y){
             //set the speed to 0 if moving downward
-            speed.y = verticalInput >= 0 ? verticalInput : 0;    
+            _speed.y = verticalInput >= 0 ? verticalInput : 0;    
         }
         //stall position
         transform.position = new Vector3(
