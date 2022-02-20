@@ -22,6 +22,16 @@ public class Player : MonoBehaviour
     void Update()
     {
 
+
+
+        movementController();
+
+
+        
+    }
+
+    void movementController(){
+
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
@@ -34,11 +44,6 @@ public class Player : MonoBehaviour
         xSpeedAndPositionUpdate(Input.GetAxis("Horizontal"));
         
         ySpeedAndPositionUpdate(Input.GetAxis("Vertical"));
-        
-
-
-
-
         
     }
 
@@ -66,25 +71,18 @@ public class Player : MonoBehaviour
         if(transform.position.y >= MainCamera.CAMERA_LIMIT_VIEW.y){
             //set the speed to 0 if moving upward
             speed.y = verticalInput <= 0 ? verticalInput : 0;
-            //stall position
-            transform.position = 
-                new Vector3(
-                    transform.position.x,
-                    MainCamera.CAMERA_LIMIT_VIEW.y,
-                    transform.position.z);
-            
         }
-        
         else if(transform.position.y <= - MainCamera.CAMERA_LIMIT_VIEW.y){
             //set the speed to 0 if moving downward
-            speed.y = verticalInput >= 0 ? verticalInput : 0;
-            //stall position
-            transform.position = 
-                new Vector3(
-                    transform.position.x,
-                    -MainCamera.CAMERA_LIMIT_VIEW.y,
-                    transform.position.z);
-            
+            speed.y = verticalInput >= 0 ? verticalInput : 0;    
         }
+        //stall position
+        transform.position = new Vector3(
+            transform.position.x,
+            Mathf.Clamp(
+                transform.position.y,
+                -MainCamera.CAMERA_LIMIT_VIEW.y,
+                MainCamera.CAMERA_LIMIT_VIEW.y),
+            0);
     }
 }
