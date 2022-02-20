@@ -6,13 +6,14 @@ public class Player : MonoBehaviour
 {
 
     public Vector3 speed;
-    public float sensibility = 5f; 
+    public Vector2 sensibility; 
     public bool xOk;
     public bool yOk;
 
     // Start is called before the first frame update
     void Start()
     {
+        sensibility = new Vector2(5,5);
         speed = new Vector3(0,0,0);
         transform.position = new Vector3(0,0,0);
     }
@@ -25,9 +26,10 @@ public class Player : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
 
 
-        speed.x = horizontalInput;
-        speed.y = verticalInput;
+        speed.x = horizontalInput * sensibility.x;
+        speed.y = verticalInput * sensibility.y;
 
+        transform.Translate( speed * Time.deltaTime);
 
         xSpeedAndPositionUpdate(Input.GetAxis("Horizontal"));
         
@@ -35,7 +37,6 @@ public class Player : MonoBehaviour
         
 
 
-        transform.Translate(sensibility*speed*Time.deltaTime);
 
 
         
