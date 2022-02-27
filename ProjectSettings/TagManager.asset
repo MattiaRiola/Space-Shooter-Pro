@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bullet
   - Laser
+  - spawnmanager
   layers:
   - Default
   - TransparentFX
