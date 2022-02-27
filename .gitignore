@@ -1,5 +1,7 @@
 # .gitignore
 
+
+
 # Unity
 /[Ll]ibrary/
 /[Tt]emp/
@@ -32,3 +34,13 @@ ExportedObj/
 *.unitypackage
 *.app
 *.exe
+
+# assets of the udemy course
+Assets/Materials/Shaders/Galaxy.shader
+Assets/Sprites
+Assets/Audio
+
+Assets/Audio.meta
+Assets/Sprites.meta
+Assets/Materials/Shaders.meta
+Assets/Materials/Shaders/Galaxy.shader.meta
