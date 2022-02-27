@@ -49,7 +49,7 @@ public class Enemy : MonoBehaviour
     }
 
 
-    float randomX(float margin)
+    static public float randomX(float margin)
     {
         return Random.Range(-MainCamera.CAMERA_LIMIT_VIEW.x + margin, MainCamera.CAMERA_LIMIT_VIEW.x - margin);
     }

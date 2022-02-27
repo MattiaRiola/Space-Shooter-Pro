@@ -19,9 +19,14 @@ public class Player : MonoBehaviour
 
     private float _lastShotTime = 0.0f;
 
+    private SpawnManager _spawnManager;
+
     // Start is called before the first frame update
     void Start()
     {
+        _spawnManager = GameObject.FindGameObjectWithTag("spawnmanager").GetComponent<SpawnManager>();
+        if(_spawnManager == null)
+            Debug.LogError("spawn manager is null");
         sensibility = new Vector2(5, 5);
         _speed = new Vector3(0, 0, 0);
         transform.position = new Vector3(0, 0, 0);
@@ -116,6 +121,7 @@ public class Player : MonoBehaviour
     public void damage(){
         _lives--;
         if(_lives <= 0 ){
+            _spawnManager.onPlayerDeath();
             Destroy(this.gameObject);
         }
     }
