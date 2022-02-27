@@ -13,13 +13,14 @@ public class Player : MonoBehaviour
     public Vector2 sensibility;
 
     [SerializeField]
-    public List<string> powerUps;
+    private bool _tripleShotEnabled;
 
     [SerializeField]
     private GameObject _laserPrefab;
+
+    [SerializeField]
+    private GameObject _tripleLaserPrefab;
     private float _mainFireOffsetY = 1.05f;
-    private float _tripleFireOffsetX = 0.775f;
-    private float _tripleFireOffsetY = -0.32f;
 
     [SerializeField]
     private float _fireRate = 0.5f;
@@ -27,54 +28,50 @@ public class Player : MonoBehaviour
     private float _lastShotTime = 0.0f;
 
     private SpawnManager _spawnManager;
+    
 
     // Start is called before the first frame update
     void Start()
     {
         _spawnManager = GameObject.FindGameObjectWithTag("spawnmanager").GetComponent<SpawnManager>();
-        if(_spawnManager == null)
+        if (_spawnManager == null)
             Debug.LogError("spawn manager is null");
         sensibility = new Vector2(5, 5);
         _speed = new Vector3(0, 0, 0);
         transform.position = new Vector3(0, 0, 0);
-
-        powerUps.Add(PowerUp.TRIPLE_LASER);
     }
 
     // Update is called once per frame
     void Update()
     {
         movementController();
-        if(Input.GetKeyDown(KeyCode.Space) && canShoot())
-            fireLaser();    
+        if (Input.GetKeyDown(KeyCode.Space) && canShoot())
+            fireLaser();
     }
 
 
-    void fireLaser(){
-            _lastShotTime = Time.time;
+    void fireLaser()
+    {
+        _lastShotTime = Time.time;
+
+        if (_tripleShotEnabled)
+        {
+            Instantiate(
+                _tripleLaserPrefab,
+                transform.position,
+                Quaternion.identity
+            );
+        }
+        else
+        {
             Instantiate(
                 _laserPrefab,
                 transform.position + (Vector3.up * _mainFireOffsetY),
                 Quaternion.identity
             );
-            if(powerUps.Contains(PowerUp.TRIPLE_LASER)){
-                Instantiate(
-                    _laserPrefab,
-                    transform.position + 
-                    (Vector3.up * _tripleFireOffsetY) +
-                    (Vector3.right * _tripleFireOffsetX),
-                    Quaternion.identity
-                );  
-                Instantiate(
-                    _laserPrefab,
-                    transform.position + 
-                    (Vector3.up * _tripleFireOffsetY) +
-                    (Vector3.left * _tripleFireOffsetX),
-                    Quaternion.identity
-                );  
-            }
+        }
     }
-    
+
     // return true if the player can shoot false otherwise
     public bool canShoot()
     {
@@ -143,9 +140,11 @@ public class Player : MonoBehaviour
             0);
     }
 
-    public void damage(){
+    public void damage()
+    {
         _lives--;
-        if(_lives <= 0 ){
+        if (_lives <= 0)
+        {
             _spawnManager.onPlayerDeath();
             Destroy(this.gameObject);
         }
