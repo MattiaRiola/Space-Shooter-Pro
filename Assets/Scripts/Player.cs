@@ -5,14 +5,21 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
+    [SerializeField]
     private int _lives = 3;
 
     [SerializeField]
     private Vector3 _speed;
     public Vector2 sensibility;
+
+    [SerializeField]
+    public List<string> powerUps;
+
     [SerializeField]
     private GameObject _laserPrefab;
-    private float _offset = 0.8f;
+    private float _mainFireOffsetY = 1.05f;
+    private float _tripleFireOffsetX = 0.775f;
+    private float _tripleFireOffsetY = -0.32f;
 
     [SerializeField]
     private float _fireRate = 0.5f;
@@ -30,6 +37,8 @@ public class Player : MonoBehaviour
         sensibility = new Vector2(5, 5);
         _speed = new Vector3(0, 0, 0);
         transform.position = new Vector3(0, 0, 0);
+
+        powerUps.Add(PowerUp.TRIPLE_LASER);
     }
 
     // Update is called once per frame
@@ -45,9 +54,25 @@ public class Player : MonoBehaviour
             _lastShotTime = Time.time;
             Instantiate(
                 _laserPrefab,
-                transform.position + (Vector3.up * _offset),
+                transform.position + (Vector3.up * _mainFireOffsetY),
                 Quaternion.identity
             );
+            if(powerUps.Contains(PowerUp.TRIPLE_LASER)){
+                Instantiate(
+                    _laserPrefab,
+                    transform.position + 
+                    (Vector3.up * _tripleFireOffsetY) +
+                    (Vector3.right * _tripleFireOffsetX),
+                    Quaternion.identity
+                );  
+                Instantiate(
+                    _laserPrefab,
+                    transform.position + 
+                    (Vector3.up * _tripleFireOffsetY) +
+                    (Vector3.left * _tripleFireOffsetX),
+                    Quaternion.identity
+                );  
+            }
     }
     
     // return true if the player can shoot false otherwise
