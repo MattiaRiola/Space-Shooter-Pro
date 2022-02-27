@@ -5,6 +5,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
+    private int _lives = 3;
+
     [SerializeField]
     private Vector3 _speed;
     public Vector2 sensibility;
@@ -109,5 +111,12 @@ public class Player : MonoBehaviour
                 -MainCamera.CAMERA_LIMIT_VIEW.y,
                 MainCamera.CAMERA_LIMIT_VIEW.y),
             0);
+    }
+
+    public void damage(){
+        _lives--;
+        if(_lives <= 0 ){
+            Destroy(this.gameObject);
+        }
     }
 }

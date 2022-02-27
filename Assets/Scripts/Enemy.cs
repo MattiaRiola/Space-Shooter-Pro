@@ -27,11 +27,17 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Hit: " + other.transform.name);
-        
+
         if (other.tag == "Player")
         {
-            
+            Player player = other.transform.GetComponent<Player>();
+            if (player == null)
+            {
+                Debug.LogError("player is null");
+                Destroy(this.gameObject);
+                return;
+            }
+            player.damage();
             Destroy(this.gameObject);
         }
         if (other.tag == "Laser")
