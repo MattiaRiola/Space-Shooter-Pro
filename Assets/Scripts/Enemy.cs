@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = new Vector3(randomX(2), MainCamera.CAMERA_LIMIT_VIEW.y, 0);
+        transform.position = new Vector3(MainCamera.randomX(2), MainCamera.CAMERA_LIMIT_VIEW.y, 0);
     }
 
     // Update is called once per frame
@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
         // respawn at top with a new random x position
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
         if (transform.position.y < -MainCamera.CAMERA_LIMIT_VIEW.y)
-            transform.position = new Vector3(randomX(2), MainCamera.CAMERA_LIMIT_VIEW.y, 0);
+            transform.position = new Vector3(MainCamera.randomX(2), MainCamera.CAMERA_LIMIT_VIEW.y, 0);
     }
 
 
@@ -49,9 +49,6 @@ public class Enemy : MonoBehaviour
     }
 
 
-    static public float randomX(float margin)
-    {
-        return Random.Range(-MainCamera.CAMERA_LIMIT_VIEW.x + margin, MainCamera.CAMERA_LIMIT_VIEW.x - margin);
-    }
+
 
 }

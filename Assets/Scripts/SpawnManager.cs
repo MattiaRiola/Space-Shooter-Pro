@@ -32,7 +32,7 @@ public class SpawnManager : MonoBehaviour
 
             GameObject newEnemy = Instantiate(
                 _enemyPrefab,
-                new Vector3(Enemy.randomX(2), MainCamera.CAMERA_LIMIT_VIEW.y, 0),
+                new Vector3(MainCamera.randomX(2), MainCamera.CAMERA_LIMIT_VIEW.y, 0),
                 Quaternion.identity
                 );
             newEnemy.transform.parent = _enemyContainer.transform;

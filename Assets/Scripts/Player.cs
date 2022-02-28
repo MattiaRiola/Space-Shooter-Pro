@@ -13,7 +13,10 @@ public class Player : MonoBehaviour
     public Vector2 sensibility;
 
     [SerializeField]
-    private bool _tripleShotEnabled;
+    private bool _tripleShotEnabled = false;
+    [SerializeField]
+    private bool _shieldEnabled = false;
+
 
     [SerializeField]
     private GameObject _laserPrefab;
@@ -28,7 +31,7 @@ public class Player : MonoBehaviour
     private float _lastShotTime = 0.0f;
 
     private SpawnManager _spawnManager;
-    
+
 
     // Start is called before the first frame update
     void Start()
@@ -148,5 +151,31 @@ public class Player : MonoBehaviour
             _spawnManager.onPlayerDeath();
             Destroy(this.gameObject);
         }
+    }
+
+    public void collectPowerUp(string powerUpCode){
+        switch (powerUpCode)
+        {
+            case PowerUp.TRIPLE_LASER:
+                _tripleShotEnabled=true;
+                StartCoroutine(tripleShotPowerDownRoutine());
+                break;
+            case PowerUp.SHIELD:
+                _shieldEnabled=true;
+                StartCoroutine(shieldPowerDownRoutine());
+                break;
+            default:
+                Debug.LogError("Player can't collect powerup with code "+ powerUpCode);
+                break;
+        }
+    }
+
+    IEnumerator tripleShotPowerDownRoutine(){
+        yield return new WaitForSeconds(PowerUp.TRIPLE_LASER_DURATION);
+        _tripleShotEnabled = false;
+    }
+    IEnumerator shieldPowerDownRoutine(){
+        yield return new WaitForSeconds(PowerUp.SHIELD_DURATION);
+        _shieldEnabled = false;
     }
 }
