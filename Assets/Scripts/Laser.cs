@@ -17,7 +17,7 @@ public class Laser : MonoBehaviour
         transform.Translate(Vector3.up*_speed*Time.deltaTime);
         if(transform.position.y > MainCamera.CAMERA_LIMIT_VIEW.y){
             Destroy(this.gameObject);
-            if(transform.parent.gameObject.tag == PowerUp.TRIPLE_LASER){
+            if(transform.parent != null){
                 Destroy(transform.parent.gameObject);
             }
         }
