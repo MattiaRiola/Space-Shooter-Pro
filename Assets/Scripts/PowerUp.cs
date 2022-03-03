@@ -5,16 +5,21 @@ using UnityEngine;
 public class PowerUp : MonoBehaviour
 {
     
+    public enum PowerupID
+    {
+        SPEED=0,
+        TRIPLE_SHOT=1,
+        SHIELD=2
+    }
+
         [SerializeField]
     private float _speed = 3.0f;
 
-    public const string TRIPLE_LASER = "triple_laser";
-    public const float TRIPLE_LASER_DURATION = 5.0f;
-    public const string SHIELD = "shield";
-    public const float SHIELD_DURATION = 3.0f;
-    public const string SPEED = "speed";
-    public const float SPEED_DURATION = 3.0f;
 
+    [SerializeField]
+    private float _powerupDuration;
+    [SerializeField]
+    private PowerupID _powerupType;
 
     // Update is called once per frame
     void Update()
@@ -31,7 +36,7 @@ public class PowerUp : MonoBehaviour
             Player player = other.GetComponent<Player>();
             if(player == null)
                 Debug.LogError("player is null");
-            player.collectPowerUp(TRIPLE_LASER);
+            player.collectPowerUp(_powerupType,_powerupDuration);
             Destroy(this.gameObject);
         }
          

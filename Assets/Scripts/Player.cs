@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private Vector3 _speed;
-    public Vector2 sensibility;
+    public Vector2 _sensibility;
 
     [SerializeField]
     private bool _tripleShotEnabled = false;
@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
         _spawnManager = GameObject.FindGameObjectWithTag("spawnmanager").GetComponent<SpawnManager>();
         if (_spawnManager == null)
             Debug.LogError("spawn manager is null");
-        sensibility = new Vector2(5, 5);
+        _sensibility = new Vector2(5, 5);
         _speed = new Vector3(0, 0, 0);
         transform.position = new Vector3(0, 0, 0);
     }
@@ -87,8 +87,8 @@ public class Player : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
 
 
-        _speed.x = horizontalInput * sensibility.x;
-        _speed.y = verticalInput * sensibility.y;
+        _speed.x = horizontalInput * _sensibility.x;
+        _speed.y = verticalInput * _sensibility.y;
 
         transform.Translate(_speed * Time.deltaTime);
 
@@ -145,7 +145,14 @@ public class Player : MonoBehaviour
 
     public void damage()
     {
-        _lives--;
+        if (_shieldEnabled)
+        {
+            _shieldEnabled = false;
+        }
+        else
+        {
+            _lives--;
+        }
         if (_lives <= 0)
         {
             _spawnManager.onPlayerDeath();
@@ -153,29 +160,41 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void collectPowerUp(string powerUpCode){
+    public void collectPowerUp(PowerUp.PowerupID powerUpCode, float duration)
+    {
         switch (powerUpCode)
         {
-            case PowerUp.TRIPLE_LASER:
-                _tripleShotEnabled=true;
-                StartCoroutine(tripleShotPowerDownRoutine());
+            case PowerUp.PowerupID.TRIPLE_SHOT:
+                _tripleShotEnabled = true;
+                StartCoroutine(tripleShotPowerDownRoutine(duration));
                 break;
-            case PowerUp.SHIELD:
-                _shieldEnabled=true;
-                StartCoroutine(shieldPowerDownRoutine());
+            case PowerUp.PowerupID.SHIELD:
+                _shieldEnabled = true;
+                StartCoroutine(shieldPowerDownRoutine(duration));
+                break;
+            case PowerUp.PowerupID.SPEED:
+                _sensibility += new Vector2(5, 5);
+                StartCoroutine(speedPowerDownRoutine(duration));
                 break;
             default:
-                Debug.LogError("Player can't collect powerup with code "+ powerUpCode);
+                Debug.LogError("Player can't collect powerup with code " + powerUpCode);
                 break;
         }
     }
 
-    IEnumerator tripleShotPowerDownRoutine(){
-        yield return new WaitForSeconds(PowerUp.TRIPLE_LASER_DURATION);
+    IEnumerator tripleShotPowerDownRoutine(float duration)
+    {
+        yield return new WaitForSeconds(duration);
         _tripleShotEnabled = false;
     }
-    IEnumerator shieldPowerDownRoutine(){
-        yield return new WaitForSeconds(PowerUp.SHIELD_DURATION);
+    IEnumerator shieldPowerDownRoutine(float duration)
+    {
+        yield return new WaitForSeconds(duration);
         _shieldEnabled = false;
+    }
+    IEnumerator speedPowerDownRoutine(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        _sensibility -= new Vector2(5, 5);
     }
 }

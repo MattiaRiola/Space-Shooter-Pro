@@ -9,11 +9,23 @@ public class SpawnManager : MonoBehaviour
     private GameObject _enemyPrefab;
 
     [SerializeField]
-    private GameObject _tripleshotPowerupPrefab;
-    
+    private GameObject[] _powerups;
+
+
+    [SerializeField]
+    private PowerUp.PowerupID[] _powerupsId = {
+        PowerUp.PowerupID.TRIPLE_SHOT,
+        PowerUp.PowerupID.SPEED,
+        PowerUp.PowerupID.SHIELD
+        };
+
+
     [SerializeField]
     private GameObject _enemyContainer;
-    
+
+    [SerializeField]
+    private GameObject _powerupContainer;
+
     [SerializeField]
     private bool _spawnEnabled = true;
 
@@ -50,13 +62,19 @@ public class SpawnManager : MonoBehaviour
         while (_spawnEnabled == true)
         {
 
+            int randPowerupId = Random.Range(0, _powerups.Length);
             GameObject newPowerup = Instantiate(
-                _tripleshotPowerupPrefab,
-                new Vector3(MainCamera.randomX(2), MainCamera.CAMERA_LIMIT_VIEW.y, 0),
-                Quaternion.identity
-                );
-            newPowerup.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(Random.Range(3.0f,7.0f));
+                            _powerups[randPowerupId],
+                            new Vector3(MainCamera.randomX(2), MainCamera.CAMERA_LIMIT_VIEW.y, 0),
+                            Quaternion.identity
+                            );
+
+            if (newPowerup == null)
+                Debug.LogError("new powerup is null");
+            else
+                newPowerup.transform.parent = _powerupContainer.transform;
+
+            yield return new WaitForSeconds(Random.Range(3.0f, 7.0f));
         }
     }
 

@@ -213,6 +213,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &564062896
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 564062897}
+  m_Layer: 0
+  m_Name: PowerupContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &564062897
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 564062896}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 565080136}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &565080134
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,9 +274,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyPrefab: {fileID: 8024244052971547125, guid: 368c3a33cd67745198be7ea82bd3ecd7,
     type: 3}
-  _tripleshotPowerupPrefab: {fileID: 7131236214596777684, guid: e2eab2eb33c7a487094b7545db6fa1f8,
-    type: 3}
+  _powerups:
+  - {fileID: 7131236214596777684, guid: e2eab2eb33c7a487094b7545db6fa1f8, type: 3}
+  - {fileID: 5851427866404053633, guid: 206058868f6414feaabc4d24a6d0e83c, type: 3}
+  - {fileID: 90838357073235381, guid: 254ebca4a9bcc46e291c2e18cfe4ecb3, type: 3}
+  _powerupsId: 010000000000000002000000
   _enemyContainer: {fileID: 571930362}
+  _powerupContainer: {fileID: 564062896}
   _spawnEnabled: 1
 --- !u!4 &565080136
 Transform:
@@ -260,6 +294,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 571930363}
+  - {fileID: 564062897}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -407,7 +442,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lives: 3
   _speed: {x: 0, y: 0, z: 0}
-  sensibility: {x: 10, y: 10}
+  _sensibility: {x: 0, y: 0}
   _tripleShotEnabled: 0
   _shieldEnabled: 0
   _laserPrefab: {fileID: 1503415497170701569, guid: 27118ac46522143709594b0f83c2d23b,
