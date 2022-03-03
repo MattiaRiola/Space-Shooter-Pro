@@ -8,6 +8,7 @@ TagManager:
   - Laser
   - spawnmanager
   - Enemy
+  - Powerup
   layers:
   - Default
   - TransparentFX

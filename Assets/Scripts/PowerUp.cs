@@ -15,12 +15,6 @@ public class PowerUp : MonoBehaviour
     public const string SPEED = "speed";
     public const float SPEED_DURATION = 3.0f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-            transform.position = new Vector3(MainCamera.randomX(2), MainCamera.CAMERA_LIMIT_VIEW.y, 0);
-        
-    }
 
     // Update is called once per frame
     void Update()
