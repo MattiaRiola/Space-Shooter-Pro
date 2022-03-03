@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
 
 
     [SerializeField]
+    private GameObject _shield;
+    [SerializeField]
     private GameObject _laserPrefab;
 
     [SerializeField]
@@ -148,6 +150,7 @@ public class Player : MonoBehaviour
         if (_shieldEnabled)
         {
             _shieldEnabled = false;
+            _shield.SetActive(false);
         }
         else
         {
@@ -170,6 +173,7 @@ public class Player : MonoBehaviour
                 break;
             case PowerUp.PowerupID.SHIELD:
                 _shieldEnabled = true;
+                _shield.SetActive(true);
                 StartCoroutine(shieldPowerDownRoutine(duration));
                 break;
             case PowerUp.PowerupID.SPEED:
@@ -191,6 +195,7 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
         _shieldEnabled = false;
+        _shield.SetActive(false);
     }
     IEnumerator speedPowerDownRoutine(float duration)
     {

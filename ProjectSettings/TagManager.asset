@@ -52,3 +52,6 @@ TagManager:
   - name: Foreground
     uniqueID: 3459080349
     locked: 0
+  - name: Effects
+    uniqueID: 269925811
+    locked: 0
