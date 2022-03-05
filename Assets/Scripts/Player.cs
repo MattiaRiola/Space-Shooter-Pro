@@ -1,12 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
 
     [SerializeField]
     private int _lives = 3;
+
+    [SerializeField]
+    private int _score = 0;
 
     [SerializeField]
     private Vector3 _speed;
@@ -25,6 +29,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private GameObject _tripleLaserPrefab;
+
+    private UIManager _uiManager;
     private float _mainFireOffsetY = 1.05f;
 
     [SerializeField]
@@ -38,6 +44,10 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+         _uiManager = GameObject.FindWithTag("Canvas").GetComponent<UIManager>();
+        if(_uiManager == null)
+            Debug.LogError("ui manager is null");
+        
         _spawnManager = GameObject.FindGameObjectWithTag("spawnmanager").GetComponent<SpawnManager>();
         if (_spawnManager == null)
             Debug.LogError("spawn manager is null");
@@ -163,6 +173,14 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void addScore(int points){
+        _score+=points;
+        _uiManager.updateScoreText(_score);
+
+    }
+    public int getPlayerScore(){
+        return _score;
+    }
     public void collectPowerUp(PowerUp.PowerupID powerUpCode, float duration)
     {
         switch (powerUpCode)

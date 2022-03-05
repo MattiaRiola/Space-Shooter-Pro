@@ -6,9 +6,15 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 4.0f;
+
+    private int _points = 10;
+
+
+    Player _player;
     // Start is called before the first frame update
     void Start()
     {
+        _player = GameObject.FindWithTag("Player").GetComponent<Player>();
         transform.position = new Vector3(MainCamera.randomX(2), MainCamera.CAMERA_LIMIT_VIEW.y, 0);
     }
 
@@ -42,7 +48,11 @@ public class Enemy : MonoBehaviour
         }
         if (other.tag == "Laser")
         {
-            Destroy(this.gameObject);
+            Destroy(other.gameObject);
+            if(_player != null)
+            {
+                _player.addScore(_points);
+            }
             Destroy(this.gameObject);
         }
 
