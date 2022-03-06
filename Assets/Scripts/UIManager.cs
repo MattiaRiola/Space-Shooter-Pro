@@ -36,5 +36,17 @@ public class UIManager : MonoBehaviour
     }
     public void updateGameover(){
         _gameoverText.gameObject.SetActive(true);
+        StartCoroutine(flickeringGameover());
+    }
+
+    IEnumerator flickeringGameover()
+    {
+        while(true){
+            yield return new WaitForSeconds(0.5f);
+            _gameoverText.gameObject.SetActive(
+                ! _gameoverText.gameObject.activeSelf
+                );
+
+        }
     }
 }
