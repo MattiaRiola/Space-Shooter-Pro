@@ -43,10 +43,9 @@ public class UIManager : MonoBehaviour
     {
         while(true){
             yield return new WaitForSeconds(0.5f);
-            _gameoverText.gameObject.SetActive(
-                ! _gameoverText.gameObject.activeSelf
-                );
-
+            _gameoverText.gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.5f);
+            _gameoverText.gameObject.SetActive(true);
         }
     }
 }
