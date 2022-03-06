@@ -12,6 +12,7 @@ TagManager:
   - Canvas
   - UI
   - ScoreText
+  - GameManager
   layers:
   - Default
   - TransparentFX
