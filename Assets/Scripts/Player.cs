@@ -170,6 +170,7 @@ public class Player : MonoBehaviour
         if (_lives <= 0)
         {
             _spawnManager.onPlayerDeath();
+            _uiManager.updateGameover();
             Destroy(this.gameObject);
         }
     }

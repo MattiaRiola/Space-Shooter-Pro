@@ -6,6 +6,8 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField]
     private Text _scoreText;
+    [SerializeField]
+    private Text _gameoverText;
 
     [SerializeField]
     private Sprite[] _liveSprites;
@@ -17,6 +19,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         _scoreText.text = "Score: " + 0;
+        _gameoverText.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -30,5 +33,8 @@ public class UIManager : MonoBehaviour
 
     public void updateLiveImage(int lives){
         _livesImg.sprite = _liveSprites[lives];
+    }
+    public void updateGameover(){
+        _gameoverText.gameObject.SetActive(true);
     }
 }
