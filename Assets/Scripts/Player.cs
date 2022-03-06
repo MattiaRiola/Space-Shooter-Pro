@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
          _uiManager = GameObject.FindWithTag("Canvas").GetComponent<UIManager>();
         if(_uiManager == null)
             Debug.LogError("ui manager is null");
-        
+        _uiManager.updateLiveImage(_lives);
         _spawnManager = GameObject.FindGameObjectWithTag("spawnmanager").GetComponent<SpawnManager>();
         if (_spawnManager == null)
             Debug.LogError("spawn manager is null");
@@ -165,6 +165,7 @@ public class Player : MonoBehaviour
         else
         {
             _lives--;
+            _uiManager.updateLiveImage(_lives);
         }
         if (_lives <= 0)
         {
