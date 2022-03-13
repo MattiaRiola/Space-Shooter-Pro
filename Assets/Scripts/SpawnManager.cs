@@ -29,17 +29,11 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private bool _spawnEnabled = true;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+
+
+    public void startSpawning(){
         StartCoroutine(spawnEnemyRoutine());
-        StartCoroutine(spawnPowerupRoutine());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        StartCoroutine(spawnPowerupRoutine());  
     }
 
 

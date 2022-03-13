@@ -5,10 +5,10 @@ using UnityEngine;
 public class Asteroid : MonoBehaviour
 {
 
-    
+
 
     [SerializeField]
-    private float _rotationSpeed=10;
+    private float _rotationSpeed = 10;
 
     [SerializeField]
     private float _hp = 10;
@@ -22,51 +22,71 @@ public class Asteroid : MonoBehaviour
 
     private Animator _anim;
     private bool _isDestroyed = false;
+    [SerializeField]
+    private GameObject _explosionPrefab;
+    [SerializeField]
+    private GameObject _explosionContainer;
+    private SpawnManager _spawnManager;
 
     void Start()
     {
+
+        _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+        if (_spawnManager == null)
+            Debug.LogError("Spawn manager not found");
+
         _player = GameObject.FindWithTag("Player").GetComponent<Player>();
         if (_player == null)
             Debug.LogError("Player is null");
 
         _anim = this.gameObject.GetComponent<Animator>();
-        if( _anim == null )
+        if (_anim == null)
             Debug.LogError("asteroid anim is null");
     }
 
     void Update()
     {
-        transform.Rotate(Vector3.forward,_rotationSpeed*Time.deltaTime);
+        transform.Rotate(Vector3.forward, _rotationSpeed * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Laser")
         {
+            damage(other.gameObject.transform.position);
             Destroy(other.gameObject);
-            if (_player != null && _hp>=0)
+            if (_player != null && _hp >= 0)
             {
                 _player.addScore(_points);
             }
-            damage();
-            
+
         }
-        if(other.tag == "Player" && !_isDestroyed){
+        if (other.tag == "Player" && !_isDestroyed)
+        {
+            damage(other.gameObject.transform.position);
             _player.damage();
-            damage();
         }
     }
 
-    private void damage(){
+    private void damage(Vector3 pos)
+    {
         _hp--;
-            if(_hp <= 0){
-                if(_isDestroyed)
-                    _player.addScore(_points);
-                
-                _isDestroyed = true;
-                _anim.SetTrigger("OnAsteroidDestroyed");
-                Destroy(this.gameObject,2.4f);
+        GameObject newExplosion = Instantiate(
+            _explosionPrefab,
+            pos,
+            Quaternion.identity
 
-            }
+        );
+        newExplosion.transform.parent = _explosionContainer.transform;
+        if (_hp <= 0 && !_isDestroyed)
+        {
+            _player.addScore(_pointsOnDestroy);
+            _spawnManager.startSpawning();
+            _anim.SetTrigger("OnAsteroidDestroyed");
+            Destroy(this.gameObject, 2.4f);
+            _isDestroyed = true;
+
+
+        }
     }
 }
