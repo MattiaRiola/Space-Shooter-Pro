@@ -43,7 +43,7 @@ public class Enemy : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
 
-        if (other.tag == "Player")
+        if (other.tag == "Player" && ! _isDestroyed)
         {
             _player.damage();
             _isDestroyed = true;
@@ -54,7 +54,7 @@ public class Enemy : MonoBehaviour
         if (other.tag == "Laser")
         {
             Destroy(other.gameObject);
-            if (_player != null)
+            if (_player != null && !_isDestroyed)
             {
                 _player.addScore(_points);
             }
