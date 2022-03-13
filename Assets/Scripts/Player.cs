@@ -30,6 +30,15 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _tripleLaserPrefab;
 
+
+    private GameObject _thruster;
+
+    private Vector3 _thrusterChange = new Vector3(0f, 0.4f, 0f);
+    private Vector3 _thrusterNormalPosition;
+
+
+    private Vector3 _thrusterNormalSize;
+
     private UIManager _uiManager;
     private float _mainFireOffsetY = 1.05f;
 
@@ -44,8 +53,16 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-         _uiManager = GameObject.FindWithTag("Canvas").GetComponent<UIManager>();
-        if(_uiManager == null)
+
+        _thruster = GameObject.Find("PlayerThruster");
+        if (_thruster == null)
+            Debug.LogError("player thruster is null");
+
+        _thrusterNormalSize = _thruster.transform.localScale;
+        _thrusterNormalPosition = _thruster.transform.localPosition;
+
+        _uiManager = GameObject.FindWithTag("Canvas").GetComponent<UIManager>();
+        if (_uiManager == null)
             Debug.LogError("ui manager is null");
         _uiManager.updateLiveImage(_lives);
         _spawnManager = GameObject.FindGameObjectWithTag("spawnmanager").GetComponent<SpawnManager>();
@@ -145,6 +162,23 @@ public class Player : MonoBehaviour
             //set the speed to 0 if moving downward
             _speed.y = verticalInput >= 0 ? verticalInput : 0;
         }
+        if (verticalInput > 0)
+        {
+
+            _thruster.transform.localPosition = _thrusterNormalPosition - _thrusterChange;
+            _thruster.transform.localScale = _thrusterNormalSize + _thrusterChange;
+        }
+        if (verticalInput < 0)
+        {
+            _thruster.transform.localPosition = _thrusterNormalPosition + _thrusterChange;
+            _thruster.transform.localScale = _thrusterNormalSize - _thrusterChange;
+        }
+        if (verticalInput == 0)
+        {
+            _thruster.transform.localPosition = _thrusterNormalPosition;
+            _thruster.transform.localScale = _thrusterNormalSize;
+        }
+
         //stall position
         transform.position = new Vector3(
             transform.position.x,
@@ -175,12 +209,14 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void addScore(int points){
-        _score+=points;
+    public void addScore(int points)
+    {
+        _score += points;
         _uiManager.updateScoreText(_score);
 
     }
-    public int getPlayerScore(){
+    public int getPlayerScore()
+    {
         return _score;
     }
     public void collectPowerUp(PowerUp.PowerupID powerUpCode, float duration)
