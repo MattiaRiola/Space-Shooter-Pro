@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,6 +31,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _tripleLaserPrefab;
 
+    [SerializeField] 
+    private GameObject _leftEngine;
+    
+    [SerializeField] 
+    private GameObject _rightEngine;
 
     private GameObject _thruster;
 
@@ -199,6 +205,7 @@ public class Player : MonoBehaviour
         else
         {
             _lives--;
+            showDamage();
             _uiManager.updateLiveImage(_lives);
         }
         if (_lives <= 0)
@@ -206,6 +213,25 @@ public class Player : MonoBehaviour
             _spawnManager.onPlayerDeath();
             _uiManager.updateGameover();
             Destroy(this.gameObject);
+        }
+    }
+
+    private void showDamage()
+    {
+        switch (_lives)
+        {
+            case 1:
+                _rightEngine.SetActive(true);
+                _leftEngine.SetActive(true);
+                break;
+            case 2:
+                _rightEngine.SetActive(false);
+                _leftEngine.SetActive(true);
+                break;
+            default:
+                _rightEngine.SetActive(false);
+                _rightEngine.SetActive(false);
+                break;
         }
     }
 
